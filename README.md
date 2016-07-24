@@ -8,7 +8,7 @@ web application firewall
 
 #修改部分
     1.修改 301 跳转 html显示内容
-    ~~2.修改rulematch = ngx.re.find 匹配函数为 rulematch = ngx.re.match
+    ~~2.修改rulematch = ngx.re.find 匹配函数为 rulematch = ngx.re.match~~
     3.修改 init.lua 文件中 local URL_WHITE_RULES = get_rule('whiteurl.rule') 打开文件名错误
     4.在user_agent检测规则中，修改日志记录的方式，只记录匹配的部分
         local RULE,ERR = rulematch(USER_AGENT,rule,"jo")
