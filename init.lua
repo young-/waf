@@ -3,7 +3,7 @@ require 'config'
 require 'lib'
 
 --args
-local rulematch = ngx.re.match
+local rulematch = ngx.re.find
 local unescape = ngx.unescape_uri
 
 --allow white ip
@@ -152,8 +152,8 @@ function user_agent_attack_check()
         if USER_AGENT ~= nil then
             for _,rule in pairs(USER_AGENT_RULES) do
                 if rule ~="" and rulematch(USER_AGENT,rule,"jo") then
-                    local RULE,ERR = rulematch(USER_AGENT,rule,"jo")
-                    log_record('Deny_USER_AGENT',ngx.var.request_uri,"-",RULE[0])
+                    local FROM,TO,ERR = rulematch(USER_AGENT,rule,"jo")
+                    log_record('Deny_USER_AGENT',ngx.var.request_uri,"-",string.sub(USER_AGENT, FROM, TO))
                     if config_waf_enable == "on" then
 		        waf_output()
                         return true
