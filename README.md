@@ -5,6 +5,20 @@ web application firewall
 ##版权声明
     参考 赵班长 https://github.com/unixhot/waf 项目
     修改了一些BUG
+
+#修改部分
+    1.修改 301 跳转 html显示内容
+    2.修改rulematch = ngx.re.find 匹配函数为 rulematch = ngx.re.match
+    3.修改 init.lua 文件中 local URL_WHITE_RULES = get_rule('whiteurl.rule') 打开文件名错误
+    4.在user_agent检测规则中，修改日志记录的方式，只记录匹配的部分
+        local RULE,ERR = rulematch(USER_AGENT,rule,"jo")
+        log_record('Deny_USER_AGENT',ngx.var.request_uri,"-",RULE[0])
+    5.在打开文件时，部分增加了assert函数判断
+        local RULE_FILE = assert(io.open(RULE_PATH..'/'..rulefilename,"r"))
+    6.输出的日志中增加nginx时间local_time = LOCAL_TIME
+    7.输出的日志中json格式增加字段"@timestamp":"2016-07-24T03:39:05.000Z" ，便于导入elk时统计
+    8.修改部分缩进
+    9.其他
     
 ###需求产生
     由于原生态的Nginx的一些安全防护功能有限，就研究能不能自己编写一个WAF，参考（照抄）Kindle大神的ngx_lua_waf，自己尝试写一个了，使用两天时间，边学Lua，边写。不过不是安全专业，只实现了一些比较简单的功能：
